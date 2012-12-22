@@ -75,17 +75,24 @@
 #define NCOL            19
 #define NKEY            95
 #define MODES           4
+#define LIGHTS          7
 
-#define WHITE 0xFFFFFF
+#define WHITE    0xFFFFFF
+#define RED      0xFF0000
+#define GREEN    0x00FF00
+#define BLUE     0x0000FF
+#define YELLOW   0xFFFF00
+#define PURPLE   0xFF00FF
+#define CYAN     0x00FFFF
 
 /* Modifier keys are handled differently and need to be identified */
 const uint8_t is_modifier[MODES][NKEY] = {
 { // LAYOUT 0
-  false,           false,           false,           false,           false,  // COL  0
-  false,           false,           false,           false,           false,  // COL  1
-  false,           false,           false,           false,           false,  // COL  2
-  false,           false,           false,           false,           false,  // COL  3
-  false,           false,           false,           false,           false,  // COL  4
+  NA,              NA,              NA,              NA,              NA,     // COL  0
+  false,           false,           false,           false,           NA,     // COL  1
+  false,           false,           false,           false,           NA,     // COL  2
+  false,           false,           false,           false,           NA,     // COL  3
+  false,           false,           false,           false,           NA,     // COL  4
 
   true,            false,           false,           false,           false,  // COL  5
   true,            true,            false,           false,           false,  // COL  6
@@ -102,7 +109,7 @@ const uint8_t is_modifier[MODES][NKEY] = {
   false,           false,           NA,              false,           false,  // COL 17
   false,           true,            false,           false,           false,  // COL 18
 }, { // LAYOUT 1
-  false,           false,           false,           false,           false,  // COL  0
+  NA,              NA,              NA,              NA,              NA,     // COL  0
   false,           false,           false,           false,           false,  // COL  1
   false,           false,           false,           false,           false,  // COL  2
   false,           false,           false,           false,           false,  // COL  3
@@ -123,11 +130,11 @@ const uint8_t is_modifier[MODES][NKEY] = {
   false,           false,           NA,              false,           false,  // COL 17
   false,           true,            false,           false,           false,  // COL 18
 }, { // LAYOUT 2
-  false,           false,           false,           false,           false,  // COL  0
-  false,           false,           false,           false,           false,  // COL  1
-  false,           false,           false,           false,           false,  // COL  2
+  NA,              NA,              NA,              NA,              NA,     // COL  0
+  false,           false,           false,           NA,              NA,     // COL  1
+  false,           false,           false,           NA,              false,  // COL  2
   false,           false,           false,           false,           false,  // COL  3
-  false,           false,           false,           false,           false,  // COL  4
+  false,           false,           false,           NA,              false,  // COL  4
 
   true,            false,           false,           false,           false,  // COL  5
   true,            true,            false,           false,           false,  // COL  6
@@ -144,7 +151,7 @@ const uint8_t is_modifier[MODES][NKEY] = {
   false,           false,           NA,              false,           false,  // COL 17
   false,           true,            false,           false,           false,  // COL 18
 }, { // LAYOUT 3
-  false,           false,           false,           false,           false,  // COL  0
+  NA,              false,           false,           false,           false,  // COL  0
   false,           false,           false,           false,           false,  // COL  1
   false,           false,           false,           false,           false,  // COL  2
   true,            false,           false,           false,           false,  // COL  3
@@ -263,12 +270,18 @@ uint8_t *const row_pull[NROW] = {_PORTB, _PORTB, _PORTB, _PORTB, _PORTB};
 uint8_t *const row_port[NROW] = { _PINB,  _PINB,  _PINB,  _PINB,  _PINB};
 const uint8_t   row_bit[NROW] = { _PIN0,  _PIN1,  _PIN2,  _PIN3,  _PIN4};
 
+/* Specifies the ports and pin numbers for the indicators and lights */
+uint8_t *const  ind_ddr[LIGHTS] = { _DDRC,  _DDRC,  _DDRC,  _DDRC,  _DDRC,  _DDRC,  _DDRC};
+uint8_t *const ind_port[LIGHTS] = {_PORTC, _PORTC, _PORTC, _PORTC, _PORTC, _PORTC, _PORTC};
+const uint8_t   ind_bit[LIGHTS] = { _PIN0,  _PIN1,  _PIN2,  _PIN3,  _PIN4,  _PIN5,  _PIN6};
+
 /* Specifies the ports and pin numbers for the columns */
-/* D1, C7, C6, D4, D0, E6, F0, F1, F4, F1, F6, F7, D7, D6, D1, D2, D3 */
+/* Phantom: D1, C7, C6, D4, D0, E6, F0, F1, F4, F1, F6, F7, D7, D6, D1, D2, D3 */
+/* Virulent: B7, D0, D1, D2, D3, D4, D5, D6, D7, E0, E1, F0, F1, F2, F3, F4, F5, F6, F7 */
 uint8_t *const  col_ddr[NCOL] = {
           _DDRB,  _DDRD,  _DDRD,  _DDRD,  _DDRD,  _DDRD,
-				  _DDRD,  _DDRD,  _DDRD,  _DDRE,  _DDRE,  _DDRF,
-				  _DDRF,  _DDRF,  _DDRF,  _DDRF,  _DDRF,  _DDRF,
+          _DDRD,  _DDRD,  _DDRD,  _DDRE,  _DDRE,  _DDRF,
+          _DDRF,  _DDRF,  _DDRF,  _DDRF,  _DDRF,  _DDRF,
           _DDRF
 };
 
@@ -281,8 +294,8 @@ uint8_t *const col_port[NCOL] = {
 
 const uint8_t   col_bit[NCOL] = {
           _PIN7,  _PIN0,  _PIN1,  _PIN2,  _PIN3,  _PIN4,
-				  _PIN5,  _PIN6,  _PIN7,  _PIN0,  _PIN1,  _PIN0,
-				  _PIN1,  _PIN2,  _PIN3,  _PIN4,  _PIN5,  _PIN6,
+          _PIN5,  _PIN6,  _PIN7,  _PIN0,  _PIN1,  _PIN0,
+          _PIN1,  _PIN2,  _PIN3,  _PIN4,  _PIN5,  _PIN6,
           _PIN7
 };
 
@@ -303,9 +316,6 @@ void key_release(uint8_t key_id);
 int main(void) {
   uint8_t row, col, key_id;
 
-  CPU_PRESCALE(0);
-  clock_portc_init(CS_clkio, WGM1_phase_correct_pwm_to_FF, COM_pwm_normal, COM_pwm_normal, COM_pwm_normal);
-  setColor(WHITE);
   init();
 
   for(;;) {
@@ -314,27 +324,21 @@ int main(void) {
       *col_port[col] &= ~col_bit[col];
       _delay_us(1);
       for(row=0; row<NROW; row++) {
-    		key_id = col*NROW+row;
-    		if(!(*row_port[row] & row_bit[row])) {
-          if(!key_id) {
-            mode++;
-            mode = (mode>=MODES)? 0 : mode;
-    		  } else if(!pressed[key_id]) {
-      			key_press(key_id);
+        key_id = col*NROW+row;
+        if(!(*row_port[row] & row_bit[row])) {
+          if(!pressed[key_id]) {
+            key_press(key_id);
+            if(key_id == 0) {
+              mode++;
+              if(mode>=MODES) mode = 0;
+              PORTC = (PORTC & 0b01111100) | ~(mode & 0b11111111);
+            }
           }
-    		}
-    		else if(pressed[key_id])
-    		  key_release(key_id);
-    		  }
-    		  *col_port[col] |= col_bit[col];
-    		}
-
-    //    OCR1B++; OCR1C++;
-
-    // TODO fixed keyboard leds.  I disabled as I cannot test them
-    //PORTB = (PORTB & 0b00111111) | ((keyboard_leds << 5) & 0b11000000);
-    //DDRB  = (DDRB  & 0b00111111) | ((keyboard_leds << 5) & 0b11000000);
-
+        } else if(pressed[key_id])
+          key_release(key_id);
+      }
+      *col_port[col] |= col_bit[col];
+    }
   }
 }
 
@@ -350,7 +354,7 @@ inline void send(void) {
 inline void key_press(uint8_t key_id) {
   uint8_t i;
   pressed[key_id] = true;
-  if(is_modifier[key_id])
+  if(is_modifier[mode][key_id])
     mod_keys |= layout[mode][key_id];
   else {
     for(i=5; i>0; i--) queue[i] = queue[i-1];
@@ -362,7 +366,7 @@ inline void key_press(uint8_t key_id) {
 inline void key_release(uint8_t key_id) {
   uint8_t i;
   pressed[key_id] = false;
-  if(is_modifier[key_id])
+  if(is_modifier[mode][key_id])
     mod_keys &= ~layout[mode][key_id];
   else {
     for(i=0; i<6; i++) if(queue[i]==key_id) break;
@@ -387,7 +391,17 @@ void init(void) {
     *col_ddr[col] |= col_bit[col];
     *col_port[col] |= col_bit[col];
   }
+  // init indicators as outputs
+  for(uint8_t indicator=0; indicator<LIGHTS; indicator++) {
+    *ind_ddr[indicator] |= ind_bit[indicator];
+    *ind_port[indicator] |= ind_bit[indicator];
+  }
+  // init pressed array
   for(i=0; i<NKEY; i++) pressed[i] = false;
+
+  CPU_PRESCALE(0);
+  clock_portc_init(CS_clkio, WGM1_phase_correct_pwm_to_FF, COM_pwm_normal, COM_pwm_normal, COM_pwm_normal);
+  setColor(CYAN);
 
   // TODO fixed keyboard leds.  I disabled as I cannot test them
   // LEDs are on output compare pins OC1B OC1C
