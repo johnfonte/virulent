@@ -82,7 +82,7 @@
 #define NCOL            19
 #define NKEY            95
 #define MODES           4
-#define INDICATE        7
+#define INDICATE        6
 #define MAINPINS        3
 
 #define WHITE    0xFFFFFF
