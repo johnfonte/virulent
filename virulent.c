@@ -59,6 +59,13 @@
 #define _PORTE          (uint8_t *const)&PORTE
 #define _PORTF          (uint8_t *const)&PORTF
 
+#define _OCR1A          (uint8_t *const)&OCR1A
+#define _OCR1B          (uint8_t *const)&OCR1B
+#define _OCR1C          (uint8_t *const)&OCR1C
+#define _OCR3A          (uint8_t *const)&OCR3A
+#define _OCR3B          (uint8_t *const)&OCR3B
+#define _OCR3C          (uint8_t *const)&OCR3C
+
 #define _PIN0 0x01
 #define _PIN1 0x02
 #define _PIN2 0x04
@@ -75,7 +82,8 @@
 #define NCOL            19
 #define NKEY            95
 #define MODES           4
-#define LIGHTS          7
+#define INDICATE        7
+#define MAINPINS        3
 
 #define WHITE    0xFFFFFF
 #define RED      0xFF0000
@@ -270,31 +278,36 @@ uint8_t *const row_pull[NROW] = {_PORTB, _PORTB, _PORTB, _PORTB, _PORTB};
 uint8_t *const row_port[NROW] = { _PINB,  _PINB,  _PINB,  _PINB,  _PINB};
 const uint8_t   row_bit[NROW] = { _PIN0,  _PIN1,  _PIN2,  _PIN3,  _PIN4};
 
-/* Specifies the ports and pin numbers for the indicators and lights */
-uint8_t *const  ind_ddr[LIGHTS] = { _DDRC,  _DDRC,  _DDRC,  _DDRC,  _DDRC,  _DDRC,  _DDRC};
-uint8_t *const ind_port[LIGHTS] = {_PORTC, _PORTC, _PORTC, _PORTC, _PORTC, _PORTC, _PORTC};
-const uint8_t   ind_bit[LIGHTS] = { _PIN0,  _PIN1,  _PIN2,  _PIN3,  _PIN4,  _PIN5,  _PIN6};
+/* Specifies the ports and pin numbers for the indicators lights only */
+uint8_t *const  ind_ddr[INDICATE] = { _DDRC,  _DDRC,  _DDRC,  _DDRC,  _DDRC,  _DDRC};
+uint8_t *const ind_port[INDICATE] = {_PORTC, _PORTC, _PORTC, _PORTC, _PORTC, _PORTC};
+const uint8_t   ind_bit[INDICATE] = { _PIN0,  _PIN1,  _PIN2,  _PIN4,  _PIN5,  _PIN6};
+
+/* Specifies the ports and pin numbers for the indicators lights only */
+uint8_t *const  main_ddr[MAINPINS] = { _DDRB,  _DDRB,  _DDRB};
+uint8_t *const main_port[MAINPINS] = {_PORTB, _PORTB, _PORTB};
+const uint8_t   main_bit[MAINPINS] = { _PIN5,  _PIN6,  _PIN7};
 
 /* Specifies the ports and pin numbers for the columns */
 /* Phantom: D1, C7, C6, D4, D0, E6, F0, F1, F4, F1, F6, F7, D7, D6, D1, D2, D3 */
-/* Virulent: B7, D0, D1, D2, D3, D4, D5, D6, D7, E0, E1, F0, F1, F2, F3, F4, F5, F6, F7 */
+/* Virulent: D0, D1, D2, D3, D4, D5, D7, E0, E1, C3, C7, F0, F1, F2, F3, F4, F5, F6, F7 */
 uint8_t *const  col_ddr[NCOL] = {
-          _DDRB,  _DDRD,  _DDRD,  _DDRD,  _DDRD,  _DDRD,
-          _DDRD,  _DDRD,  _DDRD,  _DDRE,  _DDRE,  _DDRF,
+          _DDRD,  _DDRD,  _DDRD,  _DDRD,  _DDRD,  _DDRD,
+          _DDRD,  _DDRE,  _DDRE,  _DDRC,  _DDRC,  _DDRF,
           _DDRF,  _DDRF,  _DDRF,  _DDRF,  _DDRF,  _DDRF,
           _DDRF
 };
 
 uint8_t *const col_port[NCOL] = {
-          _PORTB,  _PORTD,  _PORTD,  _PORTD,  _PORTD,  _PORTD,
-          _PORTD,  _PORTD,  _PORTD,  _PORTE,  _PORTE,  _PORTF,
+          _PORTD,  _PORTD,  _PORTD,  _PORTD,  _PORTD,  _PORTD,
+          _PORTD,  _PORTE,  _PORTE,  _PORTC,  _PORTC,  _PORTF,
           _PORTF,  _PORTF,  _PORTF,  _PORTF,  _PORTF,  _PORTF,
           _PORTF
 };
 
 const uint8_t   col_bit[NCOL] = {
-          _PIN7,  _PIN0,  _PIN1,  _PIN2,  _PIN3,  _PIN4,
-          _PIN5,  _PIN6,  _PIN7,  _PIN0,  _PIN1,  _PIN0,
+          _PIN0,  _PIN1,  _PIN2,  _PIN3,  _PIN4,  _PIN5,
+          _PIN7,  _PIN0,  _PIN1,  _PIN3,  _PIN7,  _PIN0,
           _PIN1,  _PIN2,  _PIN3,  _PIN4,  _PIN5,  _PIN6,
           _PIN7
 };
@@ -315,11 +328,19 @@ void key_release(uint8_t key_id);
 
 int main(void) {
   uint8_t row, col, key_id;
+  int countR = 0, countG = 0, countB = 0, maxR = 0, maxG = 0, maxB = 0, maxOut = 0, down = 0;
+  // time_t old_time = time(NULL);
+  // time_t new_time;
 
   init();
 
   for(;;) {
-    _delay_ms(5);                                //  Debouncing
+//    time(&new_time);
+/*    if(difftime(new_time, old_time) > .05) {
+      old_time = new_time;
+      breathe_color(&countR, &countG, &countB, &maxR, &maxG, &maxB, &maxOut, &down, &OCR3C, &OCR3B, OCR3A);
+    }
+*/    _delay_ms(5);                                //  Debouncing
     for(col=0; col<NCOL; col++) {
       *col_port[col] &= ~col_bit[col];
       _delay_us(1);
@@ -392,16 +413,23 @@ void init(void) {
     *col_port[col] |= col_bit[col];
   }
   // init indicators as outputs
-  for(uint8_t indicator=0; indicator<LIGHTS; indicator++) {
+  for(uint8_t indicator=0; indicator<INDICATE; indicator++) {
     *ind_ddr[indicator] |= ind_bit[indicator];
     *ind_port[indicator] |= ind_bit[indicator];
+  }
+  // init main keyboard lights
+  for(uint8_t mainpin=0; mainpin<MAINPINS; mainpin++) {
+    *main_ddr[mainpin] |= main_bit[mainpin];
+    *main_port[mainpin] |= main_bit[mainpin];
   }
   // init pressed array
   for(i=0; i<NKEY; i++) pressed[i] = false;
 
   CPU_PRESCALE(0);
+  clock_portb_init(CS_clkio, WGM1_phase_correct_pwm_to_FF, COM_pwm_normal, COM_pwm_normal, COM_pwm_normal);
   clock_portc_init(CS_clkio, WGM1_phase_correct_pwm_to_FF, COM_pwm_normal, COM_pwm_normal, COM_pwm_normal);
-  setColor(CYAN);
+  setColor(WHITE, &OCR3C, &OCR3B, &OCR3A);
+  setColor(WHITE, &OCR1C, &OCR1B, &OCR1A);
 
   // TODO fixed keyboard leds.  I disabled as I cannot test them
   // LEDs are on output compare pins OC1B OC1C

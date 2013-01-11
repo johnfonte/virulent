@@ -16,10 +16,10 @@
 
 void cyclePWM(void);
 void fade_through_primaries(int*, int*, int*, int*);
-void breathe_color(double*, double*, double*, int*, int*, int*, int*, int*);
+void breathe_color(double*, double*, double*, int*, int*, int*, int*, int*, uint16_t*, uint16_t*, uint16_t*);
 int getRed(unsigned long int hex);
 int getGreen(unsigned long int hex);
 int getBlue(unsigned long int hex);
-void setColor(unsigned long int);
+void setColor(unsigned long int, uint16_t*, uint16_t*, uint16_t*);
 void cycle8(int*);
 #endif

@@ -68,9 +68,15 @@ typedef enum {
     COM_pwm_normal            = 3
 } CompareOutputMode;
 
-static inline void clock_portc_init(ClockSelect cs, WaveformGenerationMode_Clock1 wgm, CompareOutputMode com1a, CompareOutputMode com1b, CompareOutputMode com1c)
+static inline void clock_portb_init(ClockSelect cs, WaveformGenerationMode_Clock1 wgm, CompareOutputMode com1a, CompareOutputMode com1b, CompareOutputMode com1c)
 {
-    TCCR3A = ((com1a)<<COM3A0) | ((com1b)<<COM3B0) | ((com1c)<<COM3C0) | (((wgm)&3)<<WGM10);
+    TCCR1A = ((com1a)<<COM1A0) | ((com1b)<<COM1B0) | ((com1c)<<COM1C0) | (((wgm)&3)<<WGM10);
+    TCCR1B = (((wgm)&4?1:0)<<WGM12)  | (cs<<CS10);
+}
+
+static inline void clock_portc_init(ClockSelect cs, WaveformGenerationMode_Clock1 wgm, CompareOutputMode com3a, CompareOutputMode com3b, CompareOutputMode com3c)
+{
+    TCCR3A = ((com3a)<<COM3A0) | ((com3b)<<COM3B0) | ((com3c)<<COM3C0) | (((wgm)&3)<<WGM10);
     TCCR3B = (((wgm)&4?1:0)<<WGM12)  | (cs<<CS10);
 }
 

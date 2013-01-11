@@ -8,6 +8,7 @@
 #include "led_driver.h"
 #include <util/delay.h>
 #include "usb_debug_only.h"
+#include <time.h>
 
 
 void cyclePWM(void) {
@@ -86,37 +87,36 @@ void fade_through_primaries(int *current, int *max, int *state, int *down) {
 	_delay_ms(50);
 }
 
-void breathe_color(double *i, double *j, double *k, int *red, int *green, int *blue, int *max, int *down) {
-    double idelta=((double)(*red)+1.0)/16.0, jdelta=((double)(*green)+1.0)/16.0, kdelta = ((double)(*blue)+1.0)/16.0;   // rate of change of the led (leds are incremented 100 times a second, range is 0..max)
+void breathe_color(double *countR, double *countG, double *countB, int *maxR, int *maxG, int *maxB, int *maxOut, int *down, uint16_t *portR, uint16_t *portG, uint16_t *portB) {
+    double deltaR=((double)(*maxR)+1.0)/16.0, deltaG=((double)(*maxG)+1.0)/16.0, deltaB = ((double)(*maxB)+1.0)/16.0;   // rate of change of the led (leds are incremented 100 times a second, range is 0..max)
 
     // increment i and turn around if we're past an extreme
     if((*down)) {
-        (*i) -= idelta;
-        (*j) -= jdelta;
-        (*k) -= kdelta;
-        if(((*red) > 0 && (*i) < 0) || ((*green) > 0 && (*j) < 0) || ((*blue) > 0 && (*k) < 0)) {
-            (*i) = 0;
-            (*j) = 0;
-            (*k) = 0;
+        (*countR) -= deltaR;
+        (*countG) -= deltaG;
+        (*countB) -= deltaB;
+        if(((*maxR) > 0 && (*countR) < 0) || ((*maxG) > 0 && (*countG) < 0) || ((*maxB) > 0 && (*countB) < 0)) {
+            (*countR) = 0;
+            (*countG) = 0;
+            (*countB) = 0;
             (*down) = 0;
         }
     } else {
-        (*i) += idelta;
-        (*j) += jdelta;
-        (*k) += kdelta;
-        if(((*red) > 0 && (*i) > (*red)) || ((*green) > 0 && (*j) > (*green)) || ((*blue) > 0 && (*k) > (*blue))) {
-            (*i) = (*red);   // would be more correct to say i=2*max-i but nobody will notice
-            (*j) = (*green);
-            (*k) = (*blue);
+        (*countR) += deltaR;
+        (*countG) += deltaG;
+        (*countB) += deltaB;
+        if(((*maxR) > 0 && (*countR) > (*maxR)) || ((*maxG) > 0 && (*countG) > (*maxG)) || ((*maxB) > 0 && (*countB) > (*maxB))) {
+            (*countR) = (*maxR);   // would be more correct to say i=2*max-i but nobody will notice
+            (*countG) = (*maxG);
+            (*countB) = (*maxB);
             (*down) = 1;
         }
     }
 
     // set the pwm values
-    OCR3C = (*max) - (int)(*i);
-    OCR3B = (*max) - (int)(*j);
-    OCR3A = (*max) - (int)(*k);
-    _delay_ms(50);
+    *portR = (*maxOut) - (int)(*countR);
+    *portG = (*maxOut) - (int)(*countG);
+    *portB = (*maxOut) - (int)(*countB);
 }
 
 int getRed(unsigned long int hex) {
@@ -131,11 +131,11 @@ int getBlue(unsigned long int hex) {
 	return((hex & 0xFF) << 0);
 }
 
-void setColor(unsigned long int hex) {
+void setColor(unsigned long int hex, uint16_t *redPort, uint16_t *greenPort, uint16_t *bluePort) {
 	unsigned long int max = 0xFF;
-	OCR3C = max - getRed(hex);
-	OCR3B = max - getGreen(hex);
-	OCR3A = max - getBlue(hex);
+	*redPort = max - getRed(hex);
+	*greenPort = max - getGreen(hex);
+	*bluePort = max - getBlue(hex);
 }
 
 void cycle8(int *count) {
