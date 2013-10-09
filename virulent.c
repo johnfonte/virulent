@@ -246,7 +246,7 @@ uint8_t mod_keys = 0;
 uint8_t mode = 0;
 
 unsigned long int mainColor = WHITE;
-unsigned long int indicatorColor = CYAN;
+unsigned long int indicatorColor = RED;
 
 double ind_cnt[RGB]  = {     0,      0,      0};
 double main_cnt[RGB] = {     0,      0,      0};
@@ -316,7 +316,7 @@ int main(void) {
   init();
 
   setMax(mainColor, main_max);
-  // setDeltas(main_delt, main_max);
+  setDeltas(main_delt, main_max);
   setColor(main_ocr, main_max);
 
   setMax(indicatorColor, ind_max);
