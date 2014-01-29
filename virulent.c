@@ -93,23 +93,24 @@
 #define YELLOW   0xFFFF00
 #define PURPLE   0xFF00FF
 #define CYAN     0x00FFFF
+#define BLACK    0x000000
 
 #define DELAY_TIME 5 //need this to control breathing LED timings
 
 /* Modifier keys are handled differently and need to be identified */
 const uint8_t is_modifier[MODES][NKEY] = {
 { // LAYOUT 0
-  NA,         false,      false,      false,      false,      NA,     // COL  0
+  false,      false,      false,      false,      false,      NA,     // COL  0
   false,      false,      false,      false,      false,      NA,     // COL  1
   false,      false,      false,      false,      false,      NA,     // COL  2
   false,      false,      false,      false,      false,      NA,     // COL  3
   false,      false,      false,      false,      false,      NA,     // COL  4
 
-  true,       false,      false,      false,      false,      false,  // COL  5
+  true,       true,       NA,         false,      false,      false,  // COL  5
   true,       true,       false,      false,      false,      NA,     // COL  6
-  true,       false,      false,      false,      false,      false,  // COL  7
+  NA,         false,      false,      false,      false,      false,  // COL  7
   true,       false,      false,      false,      false,      false,  // COL  8
-  NA,         false,      false,      false,      false,      false,  // COL  9
+  true,       false,      false,      false,      false,      false,  // COL  9
   true,       false,      false,      false,      false,      false,  // COL 10
   false,      false,      false,      false,      false,      false,  // COL 11
   false,      false,      false,      false,      false,      false,  // COL 12
@@ -120,17 +121,17 @@ const uint8_t is_modifier[MODES][NKEY] = {
   false,      false,      NA,         false,      false,      false,  // COL 17
   false,      true,       false,      false,      false,      false,  // COL 18
 }, { // LAYOUT 1
-  NA,         false,      false,      false,      false,      NA,     // COL  0
+  true,       false,      false,      false,      false,      NA,     // COL  0
   false,      false,      false,      false,      false,      NA,     // COL  1
   false,      false,      false,      false,      false,      NA,     // COL  2
-  false,      false,      false,      false,      false,      NA,     // COL  3
-  false,      false,      false,      false,      false,      NA,     // COL  4
+  true,       false,      false,      false,      false,      NA,     // COL  3
+  true,       false,      false,      false,      false,      NA,     // COL  4
 
-  true,       false,      false,      false,      false,      false,  // COL  5
+  true,       true,       NA,         false,      false,      false,  // COL  5
   true,       true,       false,      false,      false,      NA,     // COL  6
-  true,       false,      false,      false,      false,      false,  // COL  7
+  NA,         false,      false,      false,      false,      false,  // COL  7
   true,       false,      false,      false,      false,      false,  // COL  8
-  NA,         false,      false,      false,      false,      false,  // COL  9
+  true,       false,      false,      false,      false,      false,  // COL  9
   true,       false,      false,      false,      false,      false,  // COL 10
   false,      false,      false,      false,      false,      false,  // COL 11
   false,      false,      false,      false,      false,      false,  // COL 12
@@ -145,21 +146,21 @@ const uint8_t is_modifier[MODES][NKEY] = {
 const uint8_t layout[MODES][NKEY] = {
 { // LAYOUT 0
 //ROW 0            ROW 1            ROW 2            ROW 3            ROW 4
-  NA,              NA,              NA,              NA,              NA,              NA,                 // COL  0
-  KEY_LEFT,        KEY_0,           KEY_1,           KEY_4,           KEY_7,           NA,                 // COL  1
-  KEY_UP,          KEY_PERIOD,      KEY_2,           KEY_5,           KEY_8,           NA,                 // COL  2
-  KEY_DOWN,        KEYPAD_PLUS,     KEY_3,           KEY_6,           KEY_9,           NA,                 // COL  3
-  KEY_RIGHT,       KEYPAD_ENTER,    KEYPAD_MINUS,    KEYPAD_SLASH,    KEYPAD_ASTERIX,  NA,                 // COL  4
+  KEY_LEFT,        KEYPAD_ENTER,    KEY_PAGE_DOWN,   KEY_PAGE_UP,     KEY_ESC,              NA,                 // COL  0
+  KEY_DOWN,        KEY_UP,          KEY_END,         KEY_HOME,        KEYPAD_PLUS,          NA,                 // COL  1
+  KEY_RIGHT,       KEY_1,           KEY_4,           KEY_7,           KEYPAD_SLASH,         NA,                 // COL  2
+  KEY_0,           KEY_2,           KEY_5,           KEY_8,           KEYPAD_ASTERIX,       NA,                 // COL  3
+  KEY_PERIOD,      KEY_3,           KEY_6,           KEY_9,           KEYPAD_MINUS,         NA,                 // COL  4
 
-  KEY_LEFT_CTRL,   NA,              KEY_LEFT_SHIFT,  KEY_TAB,         KEY_TILDE,       KEY_ESC,            // COL  5
+  KEY_LEFT_CTRL,   NA,              KEY_CAPS_LOCK,   KEY_TAB,         KEY_TILDE,       KEY_ESC,            // COL  5
   KEY_LEFT_GUI,    KEY_LEFT_SHIFT,  KEY_A,           KEY_Q,           KEY_1,           NA,                 // COL  6
-  KEY_LEFT_ALT,    KEY_Z,           KEY_S,           KEY_W,           KEY_2,           KEY_F1,             // COL  7
-  KEY_LEFT_SHIFT,  KEY_X,           KEY_D,           KEY_E,           KEY_3,           KEY_F2,             // COL  8
-  NA,              KEY_C,           KEY_F,           KEY_R,           KEY_4,           KEY_F3,             // COL  9
+  NA,              KEY_Z,           KEY_S,           KEY_W,           KEY_2,           KEY_F1,             // COL  7
+  KEY_LEFT_ALT,    KEY_X,           KEY_D,           KEY_E,           KEY_3,           KEY_F2,             // COL  8
+  KEY_LEFT_SHIFT,  KEY_C,           KEY_F,           KEY_R,           KEY_4,           KEY_F3,             // COL  9
   KEY_LEFT_CTRL,   KEY_V,           KEY_G,           KEY_T,           KEY_5,           KEY_F4,             // COL 10
   KEY_BACKSPACE,   KEY_B,           KEY_H,           KEY_Y,           KEY_6,           KEY_F5,             // COL 11
   KEY_SPACE,       KEY_N,           KEY_J,           KEY_U,           KEY_7,           KEY_F6,             // COL 12
-  KEY_RIGHT_ALT,   KEY_M,           KEY_K,           KEY_I,           KEY_8,           KEY_F7,             // COL 13
+  KEY_DELETE,      KEY_M,           KEY_K,           KEY_I,           KEY_8,           KEY_F7,             // COL 13
   NA,              KEY_COMMA,       KEY_L,           KEY_O,           KEY_9,           KEY_F8,             // COL 14
   KEY_RIGHT_GUI,   KEY_PERIOD,      KEY_SEMICOLON,   KEY_P,           KEY_0,           KEY_F9,             // COL 15
   KEY_LEFT,        KEY_SLASH,       KEY_QUOTE,       KEY_LEFT_BRACE,  KEY_MINUS,       KEY_F10,            // COL 16
@@ -167,21 +168,21 @@ const uint8_t layout[MODES][NKEY] = {
   KEY_RIGHT,       KEY_RIGHT_SHIFT, KEY_ENTER,       KEY_BACKSLASH,   KEY_BACKSPACE,   KEY_F12,            // COL 18
 }, { // LAYOUT 1
 //ROW 0            ROW 1            ROW 2            ROW 3            ROW 4
-  KEY_LEFT_CTRL,   KEY_Z,           KEY_A,           KEY_Q,           KEY_1,           NA,                 // COL  0
+  KEY_LEFT_SHIFT,  KEY_Z,           KEY_A,           KEY_Q,           KEY_1,           NA,                 // COL  0
   KEY_ESC,         KEY_X,           KEY_S,           KEY_W,           KEY_2,           NA,                 // COL  1
-  KEY_F10,         KEY_C,           KEY_D,           KEY_E,           KEY_3,           NA,                 // COL  2
-  KEY_F11,         KEY_V,           KEY_F,           KEY_R,           KEY_4,           NA,                 // COL  3
-  KEY_LEFT_SHIFT,  KEY_B,           KEY_G,           KEY_T,           KEY_5,           NA,                 // COL  4
+  KEY_DELETE,      KEY_C,           KEY_D,           KEY_E,           KEY_3,           NA,                 // COL  2
+  KEY_LEFT_SHIFT,  KEY_V,           KEY_F,           KEY_R,           KEY_4,           NA,                 // COL  3
+  KEY_LEFT_CTRL,   KEY_B,           KEY_G,           KEY_T,           KEY_5,           NA,                 // COL  4
 
   KEY_LEFT_CTRL,   NA,              KEY_LEFT_SHIFT,  KEY_TAB,         KEY_TILDE,       KEY_ESC,            // COL  5
   KEY_LEFT_GUI,    KEY_LEFT_SHIFT,  KEY_A,           KEY_Q,           KEY_1,           NA,                 // COL  6
-  KEY_LEFT_ALT,    KEY_Z,           KEY_S,           KEY_W,           KEY_2,           KEY_F1,             // COL  7
-  KEY_LEFT_SHIFT,  KEY_X,           KEY_D,           KEY_E,           KEY_3,           KEY_F2,             // COL  8
-  NA,              KEY_C,           KEY_F,           KEY_R,           KEY_4,           KEY_F3,             // COL  9
+  NA,              KEY_Z,           KEY_S,           KEY_W,           KEY_2,           KEY_F1,             // COL  7
+  KEY_LEFT_ALT,    KEY_X,           KEY_D,           KEY_E,           KEY_3,           KEY_F2,             // COL  8
+  KEY_LEFT_SHIFT,  KEY_C,           KEY_F,           KEY_R,           KEY_4,           KEY_F3,             // COL  9
   KEY_LEFT_CTRL,   KEY_V,           KEY_G,           KEY_T,           KEY_5,           KEY_F4,             // COL 10
   KEY_BACKSPACE,   KEY_B,           KEY_H,           KEY_Y,           KEY_6,           KEY_F5,             // COL 11
   KEY_SPACE,       KEY_N,           KEY_J,           KEY_U,           KEY_7,           KEY_F6,             // COL 12
-  KEY_RIGHT_ALT,   KEY_M,           KEY_K,           KEY_I,           KEY_8,           KEY_F7,             // COL 13
+  KEY_DELETE,      KEY_M,           KEY_K,           KEY_I,           KEY_8,           KEY_F7,             // COL 13
   NA,              KEY_COMMA,       KEY_L,           KEY_O,           KEY_9,           KEY_F8,             // COL 14
   KEY_RIGHT_GUI,   KEY_PERIOD,      KEY_SEMICOLON,   KEY_P,           KEY_0,           KEY_F9,             // COL 15
   KEY_LEFT,        KEY_SLASH,       KEY_QUOTE,       KEY_LEFT_BRACE,  KEY_MINUS,       KEY_F10,            // COL 16
@@ -198,8 +199,8 @@ const uint8_t   row_bit[NROW] = { _PIN2,  _PIN1,  _PIN0,  _PIN6,  _PIN7,  _PIN0}
 /* Specifies the ports and pin numbers for the indicators lights */
 uint8_t *const  ind_ddr[RGB] = { _DDRC,  _DDRC,  _DDRC};
 uint8_t *const ind_port[RGB] = {_PORTC, _PORTC, _PORTC};
-const uint8_t   ind_bit[RGB] = { _PIN4,  _PIN5,  _PIN6};
-uint8_t *const  ind_ocr[RGB] = {_OCR3C, _OCR3B, _OCR3A};
+const uint8_t   ind_bit[RGB] = { _PIN4,  _PIN6,  _PIN5};
+uint8_t *const  ind_ocr[RGB] = {_OCR3C, _OCR3A, _OCR3B};
 
 /* Specifies the ports and pin numbers for grounds to the indicator lights */
 uint8_t *const  gnd_ddr[GNDS] = { _DDRC,  _DDRC,  _DDRC};
@@ -209,8 +210,8 @@ const uint8_t   gnd_bit[GNDS] = { _PIN1,  _PIN2,  _PIN3};
 /* Specifies the ports and pin numbers for the main lights */
 uint8_t *const  main_ddr[RGB] = { _DDRB,  _DDRB,  _DDRB};
 uint8_t *const main_port[RGB] = {_PORTB, _PORTB, _PORTB};
-const uint8_t   main_bit[RGB] = { _PIN5,  _PIN6,  _PIN7};
-uint8_t *const  main_ocr[RGB] = {_OCR1C, _OCR1B, _OCR1A};
+const uint8_t   main_bit[RGB] = { _PIN5,  _PIN7,  _PIN6};
+uint8_t *const  main_ocr[RGB] = {_OCR1A, _OCR1C, _OCR1B};
 
 /* Specifies the ports and pin numbers for the columns */
 /* Phantom: D1, C7, C6, D4, D0, E6, F0, F1, F4, F1, F6, F7, D7, D6, D1, D2, D3 */
@@ -246,7 +247,7 @@ uint8_t mod_keys = 0;
 uint8_t mode = 0;
 
 unsigned long int mainColor = WHITE;
-unsigned long int indicatorColor = RED;
+unsigned long int indicatorColor = CYAN;
 
 double ind_cnt[RGB]  = {     0,      0,      0};
 double main_cnt[RGB] = {     0,      0,      0};
@@ -269,7 +270,7 @@ double main_delt[RGB] = {     0,      0,      0};
   int down = 0;
   int old_time = 0;
   int max_time = DELAY_TIME * 2;
-//-----------------End Color Fading Initialization---------------------------
+//-----------------End Color Fading Initiaylization---------------------------
 
 void init(void);
 void send(void);
@@ -305,9 +306,9 @@ void flipDirection(bool flip) {
 }
 
 void setColor(uint8_t *const ocr[], double cnt[]) {
-  *ocr[redIndex]    = (uint8_t)cnt[redIndex];
-  *ocr[greenIndex]  = (uint8_t)cnt[greenIndex];
-  *ocr[blueIndex]   = (uint8_t)cnt[blueIndex];
+  *ocr[redIndex]    = (uint8_t)maxBrightness - (uint8_t)cnt[redIndex];
+  *ocr[greenIndex]  = (uint8_t)maxBrightness - (uint8_t)cnt[greenIndex];
+  *ocr[blueIndex]   = (uint8_t)maxBrightness - (uint8_t)cnt[blueIndex];
 }
 
 int main(void) {
@@ -316,8 +317,14 @@ int main(void) {
   init();
 
   setMax(mainColor, main_max);
-  setDeltas(main_delt, main_max);
+  // setDeltas(main_delt, main_max);
   setColor(main_ocr, main_max);
+
+  // *ind_ocr[redIndex] = 0xFE;
+  // *ind_ocr[greenIndex] = 0xFF;
+  // *ind_ocr[blueIndex] = 0x00;
+
+  // *gnd_port[greenIndex] |= gnd_bit[greenIndex];
 
   setMax(indicatorColor, ind_max);
   setDeltas(ind_delt, ind_max);
@@ -356,10 +363,10 @@ int main(void) {
         if(!(*row_port[row] & row_bit[row])) {
           if(!pressed[key_id]) {
             key_press(key_id);
-            if(key_id == 0) {
+            if(key_id == 31) {
               mode++;
               if(mode>=MODES) mode = 0;
-              PORTC = (PORTC & 0b01111100) | ~(mode & 0b11111111);
+              // PORTC = (PORTC & 0b01111100) | ~(mode & 0b11111111);
             }
           }
         } else if(pressed[key_id])
@@ -427,7 +434,7 @@ void init(void) {
   // init indicators' grounds as outputs
   for(uint8_t gnd=0; gnd<GNDS; gnd++) {
     *gnd_ddr[gnd] |= gnd_bit[gnd];
-    *gnd_port[gnd] |= gnd_bit[gnd];
+    *gnd_port[gnd] &= ~gnd_bit[gnd];
   }
   // init main keyboard lights
   for(uint8_t mainpin=0; mainpin<RGB; mainpin++) {
@@ -441,15 +448,4 @@ void init(void) {
   clock_portb_init(CS_clkio, WGM1_phase_correct_pwm_to_FF, COM_pwm_normal, COM_pwm_normal, COM_pwm_normal);
   clock_portc_init(CS_clkio, WGM1_phase_correct_pwm_to_FF, COM_pwm_normal, COM_pwm_normal, COM_pwm_normal);
 
-  // TODO fixed keyboard leds.  I disabled as I cannot test them
-  // LEDs are on output compare pins OC1B OC1C
-  // This activates fast PWM mode on them.
-  // OCR1B sets the intensity
-  //TCCR1A = 0b00101001;
-  //TCCR1B = 0b00001001;
-  //OCR1B = OCR1C = 32;
-
-  // LEDs: LED_A -> PORTB6, LED_B -> PORTB7
-  //DDRB  &= 0b00000000;
-  //PORTB &= 0b00111111;
 }
