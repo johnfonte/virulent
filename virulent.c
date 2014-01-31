@@ -114,7 +114,7 @@ const uint8_t is_modifier[MODES][NKEY] = {
   true,       false,      false,      false,      false,      false,  // COL 10
   false,      false,      false,      false,      false,      false,  // COL 11
   false,      false,      false,      false,      false,      false,  // COL 12
-  true,       false,      false,      false,      false,      false,  // COL 13
+  false,      false,      false,      false,      false,      false,  // COL 13
   NA,         false,      false,      false,      false,      false,  // COL 14
   true,       false,      false,      false,      false,      false,  // COL 15
   false,      false,      false,      false,      false,      false,  // COL 16
@@ -135,7 +135,7 @@ const uint8_t is_modifier[MODES][NKEY] = {
   true,       false,      false,      false,      false,      false,  // COL 10
   false,      false,      false,      false,      false,      false,  // COL 11
   false,      false,      false,      false,      false,      false,  // COL 12
-  true,       false,      false,      false,      false,      false,  // COL 13
+  false,      false,      false,      false,      false,      false,  // COL 13
   NA,         false,      false,      false,      false,      false,  // COL 14
   true,       false,      false,      false,      false,      false,  // COL 15
   false,      false,      false,      false,      false,      false,  // COL 16
