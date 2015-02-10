@@ -82,7 +82,7 @@
 #define NROW            6
 #define NCOL            19
 #define NKEY            114
-#define MODES           2
+#define MODES           4
 #define RGB             3
 #define GNDS            3
 
@@ -99,7 +99,7 @@
 
 /* Modifier keys are handled differently and need to be identified */
 const uint8_t is_modifier[MODES][NKEY] = {
-{ // LAYOUT 0
+{ // LAYOUT 0: NUMPAD
   false,      false,      false,      false,      false,      NA,     // COL  0
   false,      false,      false,      false,      false,      NA,     // COL  1
   false,      false,      false,      false,      false,      NA,     // COL  2
@@ -119,9 +119,9 @@ const uint8_t is_modifier[MODES][NKEY] = {
   true,       false,      false,      false,      false,      false,  // COL 15
   false,      false,      false,      false,      false,      false,  // COL 16
   false,      false,      NA,         false,      false,      false,  // COL 17
-  false,      true,       false,      false,      false,      false,  // COL 18
-}, { // LAYOUT 1
-  true,       false,      false,      false,      false,      NA,     // COL  0
+  false,      true,       false,      false,      false,      false   // COL 18
+}, { // LAYOUT 1: RTS GAMING
+  NA,         false,      false,      false,      false,      NA,     // COL  0
   false,      false,      false,      false,      false,      NA,     // COL  1
   false,      false,      false,      false,      false,      NA,     // COL  2
   true,       false,      false,      false,      false,      NA,     // COL  3
@@ -140,11 +140,53 @@ const uint8_t is_modifier[MODES][NKEY] = {
   true,       false,      false,      false,      false,      false,  // COL 15
   false,      false,      false,      false,      false,      false,  // COL 16
   false,      false,      NA,         false,      false,      false,  // COL 17
-  false,      true,       false,      false,      false,      false,  // COL 18
+  false,      true,       false,      false,      false,      false   // COL 18
+}, { // LAYOUT 2: SPLIT HANDS
+  true,       false,      false,      false,      false,      NA,     // COL  0
+  true,       false,      false,      false,      false,      NA,     // COL  1
+  true,       false,      false,      false,      false,      NA,     // COL  2
+  true,       false,      false,      false,      false,      NA,     // COL  3
+  true,       false,      false,      false,      false,      NA,     // COL  4
+
+  true,       true,       NA,         false,      false,      false,  // COL  5
+  true,       true,       false,      false,      false,      NA,     // COL  6
+  NA,         false,      false,      false,      false,      false,  // COL  7
+  true,       false,      false,      false,      false,      false,  // COL  8
+  true,       false,      false,      false,      false,      false,  // COL  9
+  true,       false,      false,      false,      false,      false,  // COL 10
+  false,      false,      false,      false,      false,      false,  // COL 11
+  false,      false,      false,      false,      false,      false,  // COL 12
+  false,      false,      false,      false,      false,      false,  // COL 13
+  NA,         false,      false,      false,      false,      false,  // COL 14
+  true,       false,      false,      false,      false,      false,  // COL 15
+  false,      false,      false,      false,      false,      false,  // COL 16
+  false,      false,      NA,         false,      false,      false,  // COL 17
+  false,      true,       false,      false,      false,      false   // COL 18
+}, { // LAYOUT 3: FPS GAMING
+  NA,         false,      false,      false,      false,      NA,     // COL  0
+  false,      false,      false,      false,      false,      NA,     // COL  1
+  false,      false,      false,      false,      false,      NA,     // COL  2
+  true,       false,      false,      false,      false,      NA,     // COL  3
+  true,       false,      false,      false,      false,      NA,     // COL  4
+
+  true,       true,       NA,         false,      false,      false,  // COL  5
+  true,       true,       false,      false,      false,      NA,     // COL  6
+  NA,         false,      false,      false,      false,      false,  // COL  7
+  true,       false,      false,      false,      false,      false,  // COL  8
+  true,       false,      false,      false,      false,      false,  // COL  9
+  true,       false,      false,      false,      false,      false,  // COL 10
+  false,      false,      false,      false,      false,      false,  // COL 11
+  false,      false,      false,      false,      false,      false,  // COL 12
+  false,      false,      false,      false,      false,      false,  // COL 13
+  NA,         false,      false,      false,      false,      false,  // COL 14
+  true,       false,      false,      false,      false,      false,  // COL 15
+  false,      false,      false,      false,      false,      false,  // COL 16
+  false,      false,      NA,         false,      false,      false,  // COL 17
+  false,      true,       false,      false,      false,      false   // COL 18
 } };
 
 const uint8_t layout[MODES][NKEY] = {
-{ // LAYOUT 0
+{ // LAYOUT 0: NUMPAD
 //ROW 0            ROW 1            ROW 2            ROW 3            ROW 4
   KEY_LEFT,        KEYPAD_ENTER,    KEY_PAGE_DOWN,   KEY_PAGE_UP,     KEY_ESC,              NA,                 // COL  0
   KEY_DOWN,        KEY_UP,          KEY_END,         KEY_HOME,        KEYPAD_PLUS,          NA,                 // COL  1
@@ -165,10 +207,10 @@ const uint8_t layout[MODES][NKEY] = {
   KEY_RIGHT_GUI,   KEY_PERIOD,      KEY_SEMICOLON,   KEY_P,           KEY_0,           KEY_F9,             // COL 15
   KEY_LEFT,        KEY_SLASH,       KEY_QUOTE,       KEY_LEFT_BRACE,  KEY_MINUS,       KEY_F10,            // COL 16
   KEY_DOWN,        KEY_UP,          NA,              KEY_RIGHT_BRACE, KEY_EQUAL,       KEY_F11,            // COL 17
-  KEY_RIGHT,       KEY_RIGHT_SHIFT, KEY_ENTER,       KEY_BACKSLASH,   KEY_BACKSPACE,   KEY_F12,            // COL 18
-}, { // LAYOUT 1
+  KEY_RIGHT,       KEY_RIGHT_SHIFT, KEY_ENTER,       KEY_BACKSLASH,   KEY_BACKSPACE,   KEY_F12             // COL 18
+}, { // LAYOUT 1: RTS GAMING
 //ROW 0            ROW 1            ROW 2            ROW 3            ROW 4
-  KEY_LEFT_SHIFT,  KEY_Z,           KEY_A,           KEY_Q,           KEY_1,           NA,                 // COL  0
+  NA,              KEY_Z,           KEY_A,           KEY_Q,           KEY_1,           NA,                 // COL  0
   KEY_ESC,         KEY_X,           KEY_S,           KEY_W,           KEY_2,           NA,                 // COL  1
   KEY_DELETE,      KEY_C,           KEY_D,           KEY_E,           KEY_3,           NA,                 // COL  2
   KEY_LEFT_SHIFT,  KEY_V,           KEY_F,           KEY_R,           KEY_4,           NA,                 // COL  3
@@ -187,7 +229,51 @@ const uint8_t layout[MODES][NKEY] = {
   KEY_RIGHT_GUI,   KEY_PERIOD,      KEY_SEMICOLON,   KEY_P,           KEY_0,           KEY_F9,             // COL 15
   KEY_LEFT,        KEY_SLASH,       KEY_QUOTE,       KEY_LEFT_BRACE,  KEY_MINUS,       KEY_F10,            // COL 16
   KEY_DOWN,        KEY_UP,          NA,              KEY_RIGHT_BRACE, KEY_EQUAL,       KEY_F11,            // COL 17
-  KEY_RIGHT,       KEY_RIGHT_SHIFT, KEY_ENTER,       KEY_BACKSLASH,   KEY_BACKSPACE,   KEY_F12,            // COL 18
+  KEY_RIGHT,       KEY_RIGHT_SHIFT, KEY_ENTER,       KEY_BACKSLASH,   KEY_BACKSPACE,   KEY_F12             // COL 18
+}, { // LAYOUT 2: SPLIT HANDS
+//ROW 0            ROW 1            ROW 2            ROW 3            ROW 4
+  KEY_LEFT_CTRL,   KEY_Z,           KEY_A,           KEY_Q,           KEY_1,           NA,                 // COL  0
+  KEY_LEFT_GUI,    KEY_X,           KEY_S,           KEY_W,           KEY_2,           NA,                 // COL  1
+  KEY_LEFT_ALT,    KEY_C,           KEY_D,           KEY_E,           KEY_3,           NA,                 // COL  2
+  KEY_LEFT_SHIFT,  KEY_V,           KEY_F,           KEY_R,           KEY_4,           NA,                 // COL  3
+  KEY_LEFT_CTRL,   KEY_B,           KEY_G,           KEY_T,           KEY_5,           NA,                 // COL  4
+
+  KEY_LEFT_CTRL,   NA,              KEY_LEFT_SHIFT,  KEY_TAB,         KEY_TILDE,       KEY_ESC,            // COL  5
+  KEY_LEFT_GUI,    KEY_LEFT_SHIFT,  KEY_A,           KEY_Q,           KEY_1,           NA,                 // COL  6
+  NA,              KEY_Z,           KEY_S,           KEY_W,           KEY_2,           KEY_F1,             // COL  7
+  KEY_LEFT_ALT,    KEY_X,           KEY_D,           KEY_E,           KEY_3,           KEY_F2,             // COL  8
+  KEY_LEFT_SHIFT,  KEY_C,           KEY_F,           KEY_R,           KEY_4,           KEY_F3,             // COL  9
+  KEY_LEFT_CTRL,   KEY_V,           KEY_G,           KEY_T,           KEY_5,           KEY_F4,             // COL 10
+  KEY_BACKSPACE,   KEY_B,           KEY_H,           KEY_Y,           KEY_6,           KEY_F5,             // COL 11
+  KEY_SPACE,       KEY_N,           KEY_J,           KEY_U,           KEY_7,           KEY_F6,             // COL 12
+  KEY_DELETE,      KEY_M,           KEY_K,           KEY_I,           KEY_8,           KEY_F7,             // COL 13
+  NA,              KEY_COMMA,       KEY_L,           KEY_O,           KEY_9,           KEY_F8,             // COL 14
+  KEY_RIGHT_GUI,   KEY_PERIOD,      KEY_SEMICOLON,   KEY_P,           KEY_0,           KEY_F9,             // COL 15
+  KEY_LEFT,        KEY_SLASH,       KEY_QUOTE,       KEY_LEFT_BRACE,  KEY_MINUS,       KEY_F10,            // COL 16
+  KEY_DOWN,        KEY_UP,          NA,              KEY_RIGHT_BRACE, KEY_EQUAL,       KEY_F11,            // COL 17
+  KEY_RIGHT,       KEY_RIGHT_SHIFT, KEY_ENTER,       KEY_BACKSLASH,   KEY_BACKSPACE,   KEY_F12             // COL 18
+}, { // LAYOUT 3: FPS GAMING
+//ROW 0            ROW 1            ROW 2            ROW 3            ROW 4
+  NA,              KEY_Z,           KEY_A,           KEY_Q,           KEY_1,           NA,                 // COL  0
+  KEY_ESC,         KEY_X,           KEY_S,           KEY_W,           KEY_2,           NA,                 // COL  1
+  KEY_DELETE,      KEY_C,           KEY_D,           KEY_E,           KEY_3,           NA,                 // COL  2
+  KEY_LEFT_SHIFT,  KEY_V,           KEY_F,           KEY_R,           KEY_4,           NA,                 // COL  3
+  KEY_LEFT_CTRL,   KEY_B,           KEY_G,           KEY_T,           KEY_5,           NA,                 // COL  4
+
+  KEY_LEFT_CTRL,   NA,              KEY_LEFT_SHIFT,  KEY_TAB,         KEY_TILDE,       KEY_ESC,            // COL  5
+  KEY_LEFT_GUI,    KEY_LEFT_SHIFT,  KEY_A,           KEY_Q,           KEY_1,           NA,                 // COL  6
+  NA,              KEY_Z,           KEY_S,           KEY_W,           KEY_2,           KEY_F1,             // COL  7
+  KEY_LEFT_ALT,    KEY_X,           KEY_D,           KEY_E,           KEY_3,           KEY_F2,             // COL  8
+  KEY_LEFT_SHIFT,  KEY_C,           KEY_F,           KEY_R,           KEY_4,           KEY_F3,             // COL  9
+  KEY_LEFT_CTRL,   KEY_V,           KEY_G,           KEY_T,           KEY_5,           KEY_F4,             // COL 10
+  KEY_BACKSPACE,   KEY_B,           KEY_H,           KEY_Y,           KEY_6,           KEY_F5,             // COL 11
+  KEY_SPACE,       KEY_N,           KEY_J,           KEY_U,           KEY_7,           KEY_F6,             // COL 12
+  KEY_DELETE,      KEY_M,           KEY_K,           KEY_I,           KEY_8,           KEY_F7,             // COL 13
+  NA,              KEY_COMMA,       KEY_L,           KEY_O,           KEY_9,           KEY_F8,             // COL 14
+  KEY_RIGHT_GUI,   KEY_PERIOD,      KEY_SEMICOLON,   KEY_P,           KEY_0,           KEY_F9,             // COL 15
+  KEY_LEFT,        KEY_SLASH,       KEY_QUOTE,       KEY_LEFT_BRACE,  KEY_MINUS,       KEY_F10,            // COL 16
+  KEY_DOWN,        KEY_UP,          NA,              KEY_RIGHT_BRACE, KEY_EQUAL,       KEY_F11,            // COL 17
+  KEY_RIGHT,       KEY_RIGHT_SHIFT, KEY_ENTER,       KEY_BACKSLASH,   KEY_BACKSPACE,   KEY_F12             // COL 18
 } };
 
 /* Specifies the ports and pin numbers for the rows */
@@ -262,7 +348,7 @@ double ind_delt[RGB]  = {     0,      0,      0};
 double main_delt[RGB] = {     0,      0,      0};
 
 //Fade color or no?
-  bool fadeColor = true;
+  bool fadeColor = false;
 //Maximum brightness
   int maxBrightness = 0xFF;
 
@@ -326,7 +412,7 @@ int main(void) {
 
   // *gnd_port[greenIndex] |= gnd_bit[greenIndex];
 
-  setMax(indicatorColor, ind_max);
+  setMax(0x040404, ind_max);
   setDeltas(ind_delt, ind_max);
 
   if(!fadeColor) {
