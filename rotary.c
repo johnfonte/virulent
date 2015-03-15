@@ -22,6 +22,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "rotary.h"
 
 void setup_rotary_encoder(void) {
+  ENC_CTL &= ~(_BV(ENC_A)|_BV(ENC_B)); //inputs
   ENC_WR |= (_BV(ENC_A)|_BV(ENC_B));    //turn on pullups
   EIFR |= (_BV(ENC_FLA)|_BV(ENC_FLB));  //enable encoder pins interrupt sources
   // setting encoder flags
@@ -31,31 +32,30 @@ void setup_rotary_encoder(void) {
   EIMSK |= (_BV(ENC_MSKA)|_BV(ENC_MSKB));
 }
 
-volatile int8_t encval = 0;   //encoder value
-volatile uint8_t direction = 0; // indicates encoder direction
-
-ISR(INT7_vect) {
-	static uint8_t old_AB = 0;  //lookup table index
+void rotary_encoder(void) {
+  static uint8_t old_AB = ENC_DETENT_STATE;  //lookup table index
+  uint8_t encport;
+  uint8_t direction;
   static const int8_t enc_states [] PROGMEM = {0,-1,1,0,1,0,0,-1,-1,0,0,1,0,1,-1,0};  //encoder lookup table
 
   old_AB <<=2;  //remember previous state
-  old_AB |= ( ENC_RD & 0x03 );
+  encport = ( ( ENC_RD & 0x30 ) >> 4);
+  old_AB |= encport;
   direction = pgm_read_byte(&(enc_states[( old_AB & 0x0f )]));
-  if(direction > 0) {
-    // vol up
-    usb_keyboard_press(KEY_W, 0);
-  } else if(direction < 0) {
-    // vol down
-    usb_keyboard_press(KEY_S, 0);
+  if(encport == ENC_DETENT_STATE) {
+    if(direction == 1) {
+      rot_key_press(KEY_A);
+    } else if(direction == -1) {
+      rot_key_press(KEY_S);
+    }
   }
-  encval += direction;
-  /* post "Navigation forward/reverse" event */
-  // if( encval > 3 ) {  //four steps forward
-  //   QF::publish(Q_NEW(QEvent, NAV_FWD_SIG));
-  //   encval = 0;
-  // }
-  // else if( encval < -3 ) {  //four steps backwards
-  //   QF::publish(Q_NEW(QEvent, NAV_REV_SIG));
-  //   encval = 0;
-  // }
+
+}
+
+ISR(INT5_vect) {
+  rotary_encoder();
+}
+
+ISR(INT4_vect) {
+  rotary_encoder();
 }

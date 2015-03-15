@@ -362,6 +362,7 @@ void init(void);
 void send(void);
 void key_press(uint8_t key_id);
 void key_release(uint8_t key_id);
+void rot_key_press(uint8_t keystroke);
 
 void setMax(unsigned long int hex, double max[]) {
   max[redIndex]   = (double)getRed(hex);
@@ -402,6 +403,10 @@ int main(void) {
 
   init();
 
+  setup_rotary_encoder();
+
+  sei();
+
   setMax(mainColor, main_max);
   // setDeltas(main_delt, main_max);
   setColor(main_ocr, main_max);
@@ -441,6 +446,7 @@ int main(void) {
     }
 
     _delay_ms(DELAY_TIME);                                //  Debouncing
+    cli();
     for(col=0; col<NCOL; col++) {
       *col_port[col] &= ~col_bit[col];
       _delay_us(1);
@@ -460,6 +466,7 @@ int main(void) {
       }
       *col_port[col] |= col_bit[col];
     }
+    sei();
   }
 }
 
@@ -469,6 +476,14 @@ inline void send(void) {
   for(i=0; i<6; i++)
     keyboard_keys[i] = queue[i]<255? layout[mode][queue[i]]: 0;
   keyboard_modifier_keys = mod_keys;
+  usb_keyboard_send();
+}
+
+inline void rot_key_press(uint8_t keystroke) {
+  keyboard_keys[0] = keystroke;
+  usb_keyboard_send();
+  _delay_ms(DELAY_TIME);
+  keyboard_keys[0] = 0;
   usb_keyboard_send();
 }
 
